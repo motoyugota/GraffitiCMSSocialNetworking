@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+	<title></title>
+	<style>
+	label
+	{
+	font-weight: bold;
+	}
+	input
+	{
+	width: 250px;
+	}
+	</style>
+</head>
+<body>
+	<h1>Facebook Setup Instructions</h1>
+	<ol>
+		<li><a href="http://developers.facebook.com/get_started.php" target="_blank">Create a new Facebook Application</a></li>
+		<li>Enter your application's API Key and Application Secret in the respective fields on the Facebook Posting Plugin settings page</li>
+		<li>Update this page - replace [API KEY] with the API key for your application (in the FB.init line of code)</li>
+		<li>Save and reload this page</li>
+		<li>Make sure that this page and xd_receiver.htm are both found in the same subfolder and are accessible on a website (can be an internal website; you just can't use file access to get to this page).</li>
+		<li>Click the "Get Permission" button below</li>
+		<li>In the Facebook Connect popup, be sure to log in with an account that has access to the page(s) that you want to post to</li>
+		<li>
+			Click "Allow" in the special permission popups that appear (there should be two if you have never set up offline access or publish access before)
+			<ol style="list-style-type: lower-alpha">
+				<li>If you are trying to post to a fan page, make sure that page is selected in the "publish to stream" special access popup</li>
+			</ol>
+		</li>
+		<li>A session key should appear in the "Session Key" text box.  This is your offline access Session Key, and should be set in the Facebook Posting Plugin settings page</li>
+		<li>Enter the numeric ID(s) for any pages that you want your posts to be sent to in the Facebook Posting Plugin settings page.  Otherwise, you will only be able to post to the wall for the current user.</li>
+		<li>Save changes on the Facebook Posting Plugin settings page</li>
+	</ol>
+
+	<button onclick="setPermissions();">
+		Get Permission</button>
+	<br />
+
+	<label for="sessionKey">Session Key:</label> <input id="sessionKey" />
+
+	<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+
+	<script type="text/javascript">
+		FB.init("[API KEY]", "/xd_receiver.htm");
+
+		function setPermissions() {
+			FB.Connect.showPermissionDialog("offline_access", function(perms) {
+				if (!perms) {
+				}
+				else {
+					FB.Connect.showPermissionDialog("publish_stream", function(perms) {
+						if (!perms) {
+						}
+						else {
+							FB.Facebook.get_sessionWaitable().waitUntilReady(function(session) {
+								$("#sessionKey").val(session.session_key);
+							});
+						}
+					}, true);
+				}
+			});
+		}
+	</script>
+
+</body>
+</html>
