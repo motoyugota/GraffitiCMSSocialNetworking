@@ -66,6 +66,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FacebookLike\FacebookLike.cs" />
+    <Compile Include="FacebookLike\FacebookLikeChalk.cs" />
+    <Compile Include="FacebookLike\FacebookLikePlugin.cs" />
     <Compile Include="FacebookPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocialPostingPlugin.cs" />
